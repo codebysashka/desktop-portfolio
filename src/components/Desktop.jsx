@@ -1,6 +1,8 @@
 import { DesktopIcon } from "./DesktopIcon"
 import { apps } from "./apps"
 import { Window } from "./Window"
+import { Contacts } from "./Contacts"
+import { MusicPlayer } from "./MusicPlayer"
 
 export const Desktop = ({
 	openedApps,
@@ -34,26 +36,27 @@ export const Desktop = ({
 				const appData = apps.find(a => a.id === id)
 				const isMinimized = minimizedAppIds.includes(id)
 
-				if (isMinimized) return null
-
 				return (
-					<Window
-						key={id}
-						title={appData.name}
-						icon={appData.icon}
-						isMaximized={maximizedAppId === id}
-						onClose={() => closeApp(id)}
-						onMaximize={() => toggleMaximize(id)}
-						onMinimize={() => toggleMinimize(id)}
-						onFocus={() => focusApp(id)}
-						zIndex={appZIndices[id] || 100}
-						position={positions[id] || { x: 100, y: 50 }}
-						onDragStop={(x, y) => updatePosition(id, x, y)}
-					>
-						{id === '1' && <p>Project list coming soon...</p>}
-						{id === '2' && <p>Skills: React, JS, Tailwind</p>}
-						{parseInt(id) > 2 && <p>Content for {appData.name}</p>}
-					</Window>
+						<Window
+							key={id}
+							title={appData.name}
+							icon={appData.icon}
+							isMinimized={isMinimized}
+							isMaximized={maximizedAppId === id}
+							onClose={() => closeApp(id)}
+							onMaximize={() => toggleMaximize(id)}
+							onMinimize={() => toggleMinimize(id)}
+							onFocus={() => focusApp(id)}
+							zIndex={appZIndices[id] || 100}
+							position={positions[id] || { x: 100, y: 50 }}
+							onDragStop={(x, y) => updatePosition(id, x, y)}
+						>
+							{id === '1' && <p>Project list coming soon...</p>}
+							{id === '2' && <p>Skills: React, JS, Tailwind</p>}
+							{id === '3' && <Contacts />}
+							{id === '4' && <MusicPlayer isMaximized={maximizedAppId === id} />}
+							{parseInt(id) > 4 && <p>This application is under development...</p>}
+						</Window>
 				)
 			})}
 		</div>

@@ -1,16 +1,17 @@
 import React, { useRef } from 'react'
 import Draggable from 'react-draggable'
 
-export const Window = ({ title, onClose, onMaximize, onMinimize, isMaximized, children, icon, onFocus, zIndex, onDragStop, position }) => {
+export const Window = ({ title, onClose, onMaximize, onMinimize, isMaximized, isMinimized, children, icon, onFocus, zIndex, position, onDragStop }) => {
 	const nodeRef = useRef(null)
 
 	const windowContent = (
 		<div
 			ref={nodeRef}
 			className={`bg-[#3d6f9c]/95 backdrop-blur-2xl border border-white/30 shadow-2xl flex flex-col overflow-hidden 
+			${isMinimized ? 'hidden' : ''} 
 			${isMaximized
 					? 'fixed inset-0 bottom-10 w-full h-auto transform-none! top-0! left-0!'
-					: 'absolute top-0 left-0 w-150 h-112.5'
+					: 'absolute top-0 left-0 w-150 h-112.5' 
 				}`}
 			style={{
 				zIndex: zIndex,
@@ -27,14 +28,9 @@ export const Window = ({ title, onClose, onMaximize, onMinimize, isMaximized, ch
 				</div>
 
 				<div className="flex h-full">
-					<button onClick={onMinimize} className="h-full px-4 hover:bg-white/10 text-white transition-colors">⎯</button>
-					<button onClick={onMaximize} className="h-full px-4 hover:bg-white/10 text-white transition-colors">{isMaximized ? '❐' : '▢'}</button>
-					<button
-						onClick={onClose}
-						className="h-full px-4 hover:bg-red-500 text-white transition-colors"
-					>
-						✕
-					</button>
+					<button onClick={(e) => { e.stopPropagation(); onMinimize(); }} className="h-full px-4 hover:bg-white/10 text-white transition-colors text-s">⎯</button>
+					<button onClick={(e) => { e.stopPropagation(); onMaximize(); }} className="h-full px-4 hover:bg-white/10 text-white transition-colors text-s">{isMaximized ? '❐' : '▢'}</button>
+					<button onClick={(e) => { e.stopPropagation(); onClose(); }} className="h-full px-4 hover:bg-red-500 text-white transition-colors text-s">✕</button>
 				</div>
 			</div>
 
@@ -44,18 +40,15 @@ export const Window = ({ title, onClose, onMaximize, onMinimize, isMaximized, ch
 		</div>
 	)
 
-	if (isMaximized) {
-		return windowContent
-	}
-
 	return (
 		<Draggable
 			nodeRef={nodeRef}
 			handle=".handle"
 			bounds="parent"
 			onStart={onFocus}
-			position={position}
+			position={isMaximized ? {x: 0, y: 0} : position}
 			onStop={(e, data) => onDragStop(data.x, data.y)}
+			disabled={isMaximized}
 		>
 			{windowContent}
 		</Draggable>

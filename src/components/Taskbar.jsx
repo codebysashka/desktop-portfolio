@@ -36,8 +36,10 @@ export const Taskbar = ({ onShutdown, openedApps, handleTaskbarClick, activeAppI
 									onClick={() => handleTaskbarClick(id)}
 									className={`relative w-13 h-full flex items-center justify-center hover:bg-white/10 transition-colors bg-transparent group ${isActive ? 'bg-white/15' : 'hover:bg-white/10'}`}
 								>
-									<img src={app.icon} className="w-8 h-8 pointer-events-none" alt="" />
-									<div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-0.75 bg-[#5faed0] rounded-t-sm" />
+									<img
+										src={app.icon}
+										className="w-8 h-8 pointer-events-none shadow-white/10" alt="" />
+									<div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-11 h-0.75 bg-[#5faed0] rounded-t-sm" />
 								</button>
 							)
 						})}

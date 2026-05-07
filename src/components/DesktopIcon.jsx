@@ -7,7 +7,7 @@ export const DesktopIcon = ({ app, onOpen }) => {
 				src={app.icon}
 				alt={app.name}
 				className="w-14 h-14 pointer-events-none" />
-			<span className="text-xs mt-1 text-white drop-shadow-md text-center wrap-break-word">{app.name}</span>
+			<span className="text-xs mt-1 text-white font-medium text-center wrap-break-word drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">{app.name}</span>
 		</div >
 	)
 }
