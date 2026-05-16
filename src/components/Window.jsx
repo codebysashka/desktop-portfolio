@@ -1,26 +1,61 @@
-import React, { useRef } from 'react'
-import Draggable from 'react-draggable'
+import React, { useRef, useEffect } from 'react'
+import { motion, useMotionValue, useDragControls } from 'framer-motion'
 
-export const Window = ({ title, onClose, onMaximize, onMinimize, isMaximized, isMinimized, children, icon, onFocus, zIndex, position, onDragStop }) => {
-	const nodeRef = useRef(null)
+export const Window = ({
+	title,
+	onClose,
+	onMaximize,
+	onMinimize,
+	isMaximized,
+	isMinimized,
+	children,
+	icon,
+	onFocus,
+	zIndex,
+	position,
+	onDragStop,
+}) => {
+	const ref = useRef(null)
+	const dragControls = useDragControls()
 
-	const windowContent = (
-		<div
-			ref={nodeRef}
-			className={`bg-[#3d6f9c]/95 backdrop-blur-2xl border border-white/30 shadow-2xl flex flex-col overflow-hidden 
-			${isMinimized ? 'hidden' : ''} 
-			${isMaximized
-					? 'fixed inset-0 bottom-10 w-full h-auto transform-none! top-0! left-0!'
-					: 'absolute top-0 left-0 w-150 h-112.5' 
-				}`}
+	const x = useMotionValue(position?.x ?? 0)
+	const y = useMotionValue(position?.y ?? 0)
+
+	useEffect(() => {
+		if (!isMaximized && position) {
+			x.set(position.x)
+			y.set(position.y)
+		}
+	}, [position, isMaximized, x, y])
+
+	if (isMinimized) return null
+
+	return (
+		<motion.div
+			ref={ref}
+			className={`bg-[#3d6f9c]/95 backdrop-blur-2xl border border-white/30 shadow-2xl flex flex-col overflow-hidden
+      	${isMaximized ? 'fixed inset-0 bottom-10 w-full h-auto !top-0 !left-0' : 'absolute top-0 left-0 w-[680px] h-[580px]'}`}
 			style={{
-				zIndex: zIndex,
-				transform: isMaximized ? 'none' : undefined
-			}}>
+				zIndex,
+				x: !isMaximized ? x : 0,
+				y: !isMaximized ? y : 0,
+				position: isMaximized ? 'fixed' : 'absolute',
+			}}
 
+			drag={!isMaximized}
+			dragControls={dragControls} 
+			dragListener={false} 
+			dragMomentum={false}
+			dragElastic={0}
+			onDragEnd={() => {
+				if (onDragStop) onDragStop(x.get(), y.get())
+			}}
+			onMouseDown={onFocus}
+		>
 			<div
+				className="h-9 bg-white/10 border-b border-white/20 flex items-center justify-between select-none cursor-default"
+				onPointerDown={(e) => dragControls.start(e)} 
 				onMouseDown={onFocus}
-				className="h-9 bg-white/10 border-b border-white/20 flex items-center justify-between select-none cursor-default handle"
 			>
 				<div className="flex items-center gap-2 pl-3 pointer-events-none">
 					<img src={icon} className="w-4 h-4" alt="" />
@@ -34,23 +69,9 @@ export const Window = ({ title, onClose, onMaximize, onMinimize, isMaximized, is
 				</div>
 			</div>
 
-			<div className="flex-1 overflow-auto p-6 text-white" onMouseDown={onFocus}>
+			<div className="flex-1 flex flex-col min-h-0 overflow-y-auto custom-scrollbar text-white">
 				{children}
 			</div>
-		</div>
-	)
-
-	return (
-		<Draggable
-			nodeRef={nodeRef}
-			handle=".handle"
-			bounds="parent"
-			onStart={onFocus}
-			position={isMaximized ? {x: 0, y: 0} : position}
-			onStop={(e, data) => onDragStop(data.x, data.y)}
-			disabled={isMaximized}
-		>
-			{windowContent}
-		</Draggable>
+		</motion.div>
 	)
 }

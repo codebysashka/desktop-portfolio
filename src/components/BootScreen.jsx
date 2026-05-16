@@ -5,7 +5,7 @@ export const BootScreen = ({ onEnter }) => {
 		<div
 			onClick={onEnter}
 			className="h-screen w-screen flex flex-col items-center justify-center bg-cover bg-center cursor-pointer"
-			style={{ backgroundImage: "url('/bs.jpg')" }}
+			style={{ backgroundImage: "url('/bs1.jpg')" }}
 		>
 			<h2 className="text-white text-base tracking-[0.3em] uppercase font-semibold drop-shadow-lg mb-6">
 				Welcome to CodeBySashka OS
