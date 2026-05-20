@@ -28,7 +28,7 @@ export const Taskbar = ({ onShutdown, openedApps, handleTaskbarClick, activeAppI
 
 					<div className="flex items-center gap-0 h-full">
 						{openedApps.map(id => {
-							const app = apps.find(a => a.id === id)
+							const app = apps.find(a => a.id === id) || { name: 'App', icon: '' }
 							const isActive = activeAppId === id
 							return (
 								<button

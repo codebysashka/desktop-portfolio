@@ -6,6 +6,5 @@ export const apps = [
 	{ id: '5', name: 'Music Player', icon: '/icons/music-player.png' }, 
 	{ id: '6', name: 'Hobbies', icon: '/icons/hobbies.png' },
 	{ id: 'minesweeper', name: 'Minesweeper', icon: '/icons/sweeper.png' },
-	{ id: 'resume', name: 'Resume.pdf', icon: '/icons/resume.png' },
-
+	{ id: 'resume', name: 'Resume', icon: '/icons/resume.png', hideDesktop: true } 
 ]

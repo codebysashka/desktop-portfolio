@@ -148,10 +148,10 @@ const MyLocalClock = () => {
 
 export const Contacts = ({ isMaximized, openApp }) => {
 	const contactLinks = [
-		{ label: 'Telegram', value: '@', link: 'https://t.me/', icon: '✈️' },
+		{ label: 'Telegram', value: '@saosulka', link: 'https://t.me/saosulka', icon: '✈️' },
 		{ label: 'GitHub', value: 'github.com/codebysashka', link: 'https://github.com/codebysashka', icon: '💻' },
-		{ label: 'Email', value: '', link: 'mailto:', icon: '📧' },
-		{ label: 'Resume', value: 'View Resume', link: '', icon: '📄' },
+		{ label: 'Email', value: 'aleksajfelix@gmail.com', link: 'mailto:aleksajfelix@gmail.com', icon: '📧' },
+		{ label: 'Resume', value: 'View Resume', icon: '📄' },
 	]
 
 	return (
@@ -185,17 +185,37 @@ export const Contacts = ({ isMaximized, openApp }) => {
 					<div className="space-y-4 px-4">
 						<p className="text-white/60 text-xs font-bold uppercase tracking-[0.3em] mb-6 border-l-2 border-sky-400 pl-3">Get in touch</p>
 						<div className="grid grid-cols-1 gap-4">
-							{contactLinks.map((item, index) => (
-								<a key={index} href={item.link} target="_blank" rel="noreferrer" className="flex items-center justify-between p-6 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-sky-400/40 transition-all duration-300 group">
-									<div className="flex items-center gap-6">
-										<span className="text-3xl group-hover:scale-110 transition-transform duration-300">{item.icon}</span>
-										<div className="flex flex-col">
-											<span className="text-[11px] font-bold uppercase tracking-widest text-white/50 group-hover:text-white transition-colors">{item.label}</span>
+							{contactLinks.map((item, index) => {
+								const isResume = item.label === 'Resume'
+								const content = (
+									<>
+										<div className="flex items-center gap-6">
+											<span className="text-3xl group-hover:scale-110 transition-transform duration-300">{item.icon}</span>
+											<div className="flex flex-col">
+												<span className="text-[11px] font-bold uppercase tracking-widest text-white/50 group-hover:text-white transition-colors">
+													{item.label}
+												</span>
+											</div>
 										</div>
-									</div>
-									<span className="text-base font-medium text-white/90">{item.value}</span>
-								</a>
-							))}
+										<span className="text-base font-medium text-white/90">{item.value}</span>
+									</>
+								)
+							
+								const styles = "flex items-center justify-between p-6 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-sky-400/40 transition-all duration-300 group cursor-pointer"
+								if (isResume) {
+									return (
+										<div key={index} onClick={() => openApp('resume')} className={styles}>
+											{content}
+										</div>
+									)
+								}
+
+								return (
+									<a key={index} href={item.link} target="_blank" rel="noreferrer" className={styles}>
+										{content}
+									</a>
+								)
+							})}			
 						</div>
 					</div>
 				</div>

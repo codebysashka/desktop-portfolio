@@ -89,3 +89,39 @@ body,
 	scrollbar-width: thin;
 	scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
 }
+
+@media print {
+
+	@page {
+		margin: 7mm 10mm !important;
+	}
+
+	html,
+	body,
+	#root,
+	#resume-to-pdf-container {
+		height: auto !important;
+		min-height: 0 !important;
+		overflow: visible !important;
+		background: white !important;
+	}
+
+	#resume-print-area {
+		display: block !important;
+		height: auto !important;
+		overflow: visible !important;
+		position: static !important;
+		padding: 0 !important;
+	}
+
+	.experience-item,
+	section {
+		break-inside: avoid !important;
+		page-break-inside: avoid !important;
+		margin-bottom: 10mm !important;
+	}
+
+	button {
+		display: none !important;
+	}
+}

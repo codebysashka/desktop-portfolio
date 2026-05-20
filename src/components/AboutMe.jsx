@@ -80,10 +80,20 @@ const MagicVine = ({ side }) => {
 }
 
 export const AboutMe = ({ isMaximized }) => {
+	const containerRef = useRef(null)
+	React.useEffect(() => {
+		if (isMaximized && containerRef.current) {
+			containerRef.current.scrollTo(0, 0)
+		}
+	}, [isMaximized])
+
 	return (
-		<div className={`h-full w-full relative overflow-y-auto overflow-x-hidden custom-scrollbar bg-gradient-to-br from-emerald-950/90 via-teal-900/80 to-stone-900/90 text-amber-100 font-serif 
-		${isMaximized ? 'overflow-y-hidden' : 'overflow-y-auto'}
-		`}>
+		<div 
+			ref={containerRef}
+			className={`h-full w-full relative bg-gradient-to-br from-emerald-950/90 via-teal-900/80 to-stone-900/90 text-amber-100 font-serif flex flex-col custom-scrollbar
+				${isMaximized ? 'overflow-hidden' : 'overflow-y-auto overflow-x-hidden'}
+			`}
+		>
 
 			<div className="absolute inset-0 pointer-events-none z-0">
 				{DUST_POSITIONS.map((pos) => (

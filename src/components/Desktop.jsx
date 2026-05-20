@@ -5,6 +5,7 @@ import { Contacts } from "./Contacts"
 import { MusicPlayer } from "./MusicPlayer"
 import { Minesweeper } from "./Minesweeper"
 import { AboutMe } from "./AboutMe"
+import { Resume } from "./Resume"
 
 export const Desktop = ({
 	openedApps,
@@ -19,14 +20,14 @@ export const Desktop = ({
 	positions,
 	updatePosition
 }) => {
-	
+
 	return (
 		<div
 			className="w-screen h-screen bg-cover bg-center bg-no-repeat overflow-hidden relative"
 			style={{ backgroundImage: "url('/bg1.jpg')" }}
 		>
 			<div className="relative z-10 flex flex-col flex-wrap content-start w-full max-h-[calc(100vh-48px)] pl-1 p-4 gap-4">
-				{apps.map((app) => (
+				{apps.filter(app => !app.hideDesktop).map((app) => (
 					<DesktopIcon
 						key={app.id}
 						app={app}
@@ -72,7 +73,10 @@ export const Desktop = ({
 						{id === '3' && <p>Skills: React, JS, Tailwind</p>}
 						{id === '4' && <Contacts isMaximized={maximizedAppId === id} openApp={openApp} />}
 						{id === '5' && <MusicPlayer isMaximized={maximizedAppId === id} />}
+						{id === 'resume' && <Resume />}
+
 						{parseInt(id) > 6 && <p>This application is under development...</p>}
+
 					</Window>
 				)
 			})}
